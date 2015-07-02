@@ -1,0 +1,79 @@
+package main
+
+import (
+  "fmt"
+  "net/http"
+  "io/ioutil"
+  "encoding/json"
+  "encoding/csv"
+  "os"
+ "strconv"
+
+)
+
+
+
+type query struct{
+  Features []features
+  }
+type features struct{
+  Attributes map[string]interface{}
+}
+
+  func main(){
+  var slice []string
+    csvfile, err := os.Create("output.csv")
+    if err != nil {
+            fmt.Println("Error:", err)
+            return
+    }
+    defer csvfile.Close()
+  writer := csv.NewWriter(csvfile)
+
+    response, err := http.Get("http://coagisweb.cabq.gov/arcgis/rest/services/public/PublicArt/MapServer/0/query?where=1=1&outFields=*&f=json")
+       if err != nil {
+           fmt.Printf("%s", err)
+
+       } else {
+           defer response.Body.Close()
+           c, _ := ioutil.ReadAll(response.Body)
+           //var data map[string]interface{}
+           var data query
+           json.Unmarshal(c,&data)
+
+  for i:=0; i<len(data.Features); i++{
+  //  for key, _ := range data.Features[i].Attributes{
+for _, value := range data.Features[i].Attributes{
+          //  switch v:=data.Features[i].Attributes[key].(type){
+          switch v:=value.(type){
+            case string:
+                slice=append(slice,v)
+            case nil:
+              slice=append(slice,"NIL")
+            case float64:
+              slice=append(slice,strconv.FormatFloat(v,'g',10,64))
+            default:
+              slice=append(slice,"NULL")
+            }
+
+
+    }
+    slice=append(slice,"\r\n")
+    writer.Write(slice)
+    slice=nil
+
+    //writer.Write([]string{"\n"})
+
+  }
+
+ writer.Flush()
+
+
+
+       }
+
+
+
+
+
+  }
