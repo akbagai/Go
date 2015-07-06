@@ -1,4 +1,4 @@
-#Go library for querying n ESRI REST enpoint.
+#Go library for querying an ESRI REST enpoint.
 
 Use:
 ```go
