@@ -1,5 +1,9 @@
 #Go library for querying an ESRI REST enpoint.
 
+Install:
+'go get github.com/PaulCrickard/Go/esrirest'
+
+
 Use:
 ```go
 package main
