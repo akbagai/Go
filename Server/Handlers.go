@@ -18,7 +18,7 @@ type features struct {
 func Index(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintln(w, "Welcome!")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	content, err := ioutil.ReadFile("C:/Users/e31757/Desktop/GoCode/src/ReadDirectory/files/art.json")
+	content, err := ioutil.ReadFile("C:/Users/Me/Desktop/GoCode/src/Server/files/art.json")
 	if err != nil {
 		fmt.Println(err)
 	}
