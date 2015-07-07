@@ -12,7 +12,7 @@ package main
 
 import (
   "fmt"
-  "esrirest"
+   "github.com/PaulCrickard/Go/esrirest"
 
 )
 
