@@ -18,4 +18,10 @@ var routes = Routes{
 		"/",
 		Index,
 	},
+	Route{
+		"FilterQuery",
+		"GET",
+		"/{key}/{value}",
+		FilterQuery,
+	},
 }
