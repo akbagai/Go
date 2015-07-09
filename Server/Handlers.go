@@ -54,3 +54,23 @@ func FilterQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func Subset(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	content, err := ioutil.ReadFile("C:/Users/e31757/Desktop/Go/src/server/files/art.geojson")
+	if err != nil {
+		fmt.Println(err)
+	}
+	//fmt.Println(content)
+	var data query
+	json.Unmarshal(content, &data)
+	vars := mux.Vars(r)
+	howMany,_ := strconv.Atoi(vars["howMany"])
+
+	for i := 0; i < howMany; i++ {
+			if err := json.NewEncoder(w).Encode(data.Features[i]); err != nil {
+				panic(err)
+			}
+	}
+
+}
