@@ -24,4 +24,10 @@ var routes = Routes{
 		"/{key}/{value}",
 		FilterQuery,
 	},
+	Route{
+		"Subset",
+		"GET",
+		"/{howMany}",
+		Subset,
+	},
 }
