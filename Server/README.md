@@ -18,3 +18,7 @@ Added a Query route that currently only works on strings. Takes format of /Key/V
 http://localhost:8080/ART_CODE/101
 http://localhost:8080/YEAR/1985
 ```
+Added a subset route that returns the specified number of records
+```
+http://localhost:8080/10
+```
