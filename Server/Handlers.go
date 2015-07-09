@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
         "strconv"
+        "os"
 	"github.com/gorilla/mux"
 )
 
@@ -20,7 +21,7 @@ type features struct {
 func Index(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintln(w, "Welcome!")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	content, err := ioutil.ReadFile("C:/Users/me/Desktop/GoCode/src/server/files/art.json")
+	content, err := ioutil.ReadFile(os.Getenv("JSONServerFile"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -34,7 +35,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func FilterQuery(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	content, err := ioutil.ReadFile("C:/Users/me/Desktop/GoCode/src/server/files/art.json")
+	content, err := ioutil.ReadFile(os.Getenv("JSONServerFile"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -57,7 +58,7 @@ func FilterQuery(w http.ResponseWriter, r *http.Request) {
 
 func Subset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	content, err := ioutil.ReadFile("C:/Users/e31757/Desktop/Go/src/server/files/art.geojson")
+	content, err := ioutil.ReadFile(os.Getenv("JSONServerFile"))
 	if err != nil {
 		fmt.Println(err)
 	}
