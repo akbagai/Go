@@ -1,8 +1,11 @@
 # Go Server
 
-Serve a GeoJSON file as a REST Endpoint. Allows cross domain requests. Change path to the GeoJSON file to use your own. Create an executable using Build and Install.
+Serve a GeoJSON file as a REST Endpoint. Allows cross domain requests.
 
-To add a new file, create another handler route.
+I have included a Windows 64 .exe. You must create an Environment Variable called JSONServerFile with the full filename and path (ie.. C:/myfiles/JSON/somedata.geojson). See [Here](http://www.computerhope.com/issues/ch000549.htm) for instructions on how to do that.
+
+You can modify the souce code and build your own as well.
+To serve more files, create another route and attach another handler.
 
 Code taken from [Making a RESTful JSON API in Go](http:////thenewstack.io/make-a-restful-json-api-go/) and modified to read json file and allow cross domain requests.
 
