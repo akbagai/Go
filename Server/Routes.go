@@ -13,6 +13,12 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
+		"MSsql",
+		"GET",
+		"/sql",
+		MSsql,
+	},
+	Route{
 		"Index",
 		"GET",
 		"/",
