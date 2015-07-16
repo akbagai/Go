@@ -1,12 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
-        "strconv"
-        "os"
+	"os"
+	"strconv"
+
+	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/gorilla/mux"
 )
 
@@ -20,6 +24,7 @@ type features struct {
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintln(w, "Welcome!")
+
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	content, err := ioutil.ReadFile(os.Getenv("JSONServerFile"))
 	if err != nil {
@@ -66,12 +71,59 @@ func Subset(w http.ResponseWriter, r *http.Request) {
 	var data query
 	json.Unmarshal(content, &data)
 	vars := mux.Vars(r)
-	howMany,_ := strconv.Atoi(vars["howMany"])
+	howMany, _ := strconv.Atoi(vars["howMany"])
 
 	for i := 0; i < howMany; i++ {
-			if err := json.NewEncoder(w).Encode(data.Features[i]); err != nil {
-				panic(err)
-			}
+		if err := json.NewEncoder(w).Encode(data.Features[i]); err != nil {
+			panic(err)
+		}
+	}
+
+}
+
+func MSsql(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	db, err := sql.Open("mssql", "server=myServer;user id=domain\\myName;password=secret;database=myDB")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	var (
+		id     int
+		name   string
+		age    string
+		gender string
+	)
+
+	type Result struct {
+		Id     int    `json:"id"`
+		Name   string `json:"name"`
+		Age    string `json:"age"`
+		Gender string `json:"gender"`
+	}
+	//rows, err := db.Query("select id, name, age, gender from PaulTest where id = ?", 3)
+	rows, err := db.Query("select * from PaulTest")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err := rows.Scan(&id, &name, &age, &gender)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		d := Result{id, name, age, gender}
+
+		log.Print(d)
+		if err := json.NewEncoder(w).Encode(d); err != nil {
+			panic(err)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
 	}
 
 }
