@@ -2,7 +2,7 @@
 
 Serve a GeoJSON file as a REST Endpoint. Allows cross domain requests.
 
-I have included a Windows 64 .exe. You must create an Environment Variable called JSONServerFile with the full filename and path (ie.. C:/myfiles/JSON/somedata.geojson). See [Here](http://www.computerhope.com/issues/ch000549.htm) for instructions on how to do that.
+You must create an Environment Variable called JSONServerFile with the full filename and path (ie.. C:/myfiles/JSON/somedata.geojson). See [Here](http://www.computerhope.com/issues/ch000549.htm) for instructions on how to do that. For the /sql route, you need a DB and a connection.
 
 You can modify the souce code and build your own as well.
 To serve more files, create another route and attach another handler.
