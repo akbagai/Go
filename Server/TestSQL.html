@@ -1,0 +1,22 @@
+<html>
+<head><title>Make Request</title>
+</head>
+<body>
+<script>
+var url="http://localhost:8080/sql";
+http=new XMLHttpRequest();
+http.open("GET", url, true);
+http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+http.onreadystatechange = function() {//Call a function when the state changes.
+  if(http.readyState == 4 && http.status == 200) {
+
+     data= JSON.parse(http.responseText);
+		 for(x=0;x<data.length;x++){
+			console.log(data[x].name)
+  		}
+  }
+}
+http.send();
+</script>
+</body>
+</html>
