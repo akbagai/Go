@@ -108,7 +108,7 @@ func MSsql(w http.ResponseWriter, r *http.Request) {
 		Gender string `json:"gender"`
 	}
 	//rows, err := db.Query("select id, name, age, gender from PaulTest where id = ?", 3)
-	rows, err := db.Query("select * from PaulTest")
+	rows, err := db.Query("select * from dmd.PaulTest")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -122,10 +122,12 @@ func MSsql(w http.ResponseWriter, r *http.Request) {
 
 		d := Result{id, name, age, gender}
 		output = append(output, d)
-		fmt.Fprint(w, json.NewEncoder(w).Encode(d))
 
 	}
-	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
+	if err := json.NewEncoder(w).Encode(output); err != nil {
+		panic(err)
+	}
+
 	err = rows.Err()
 	if err != nil {
 		log.Fatal(err)
