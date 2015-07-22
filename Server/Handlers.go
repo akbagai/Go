@@ -59,7 +59,9 @@ func FilterQuery(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
+	if err := json.NewEncoder(w).Encode(output); err != nil {
+		panic(err)
+	}
 
 }
 
@@ -79,7 +81,9 @@ func Subset(w http.ResponseWriter, r *http.Request) {
 		output = append(output, data.Features[i])
 
 	}
-	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
+	if err := json.NewEncoder(w).Encode(output); err != nil {
+		panic(err)
+	}
 }
 
 func MSsql(w http.ResponseWriter, r *http.Request) {
