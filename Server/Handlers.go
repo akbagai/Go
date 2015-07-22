@@ -50,14 +50,16 @@ func FilterQuery(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["key"]
 	value := vars["value"]
+	var output []features
+
 	for i := 0; i < len(data.Features); i++ {
 		if data.Features[i].Properties[key] == value {
-			if err := json.NewEncoder(w).Encode(data.Features[i]); err != nil {
-				panic(err)
-			}
-		} else {
+			output = append(output, data.Features[i])
+
 		}
+
 	}
+	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
 
 }
 
@@ -72,13 +74,12 @@ func Subset(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(content, &data)
 	vars := mux.Vars(r)
 	howMany, _ := strconv.Atoi(vars["howMany"])
-
+	var output []features
 	for i := 0; i < howMany; i++ {
-		if err := json.NewEncoder(w).Encode(data.Features[i]); err != nil {
-			panic(err)
-		}
-	}
+		output = append(output, data.Features[i])
 
+	}
+	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
 }
 
 func MSsql(w http.ResponseWriter, r *http.Request) {
@@ -108,6 +109,7 @@ func MSsql(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+	var output []Result
 	for rows.Next() {
 		err := rows.Scan(&id, &name, &age, &gender)
 		if err != nil {
@@ -115,12 +117,11 @@ func MSsql(w http.ResponseWriter, r *http.Request) {
 		}
 
 		d := Result{id, name, age, gender}
+		output = append(output, d)
+		fmt.Fprint(w, json.NewEncoder(w).Encode(d))
 
-		log.Print(d)
-		if err := json.NewEncoder(w).Encode(d); err != nil {
-			panic(err)
-		}
 	}
+	fmt.Fprint(w, json.NewEncoder(w).Encode(output))
 	err = rows.Err()
 	if err != nil {
 		log.Fatal(err)
